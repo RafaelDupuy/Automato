@@ -1,34 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="621.0" prefWidth="603.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.141" fx:controller="trabaidaporra.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="793.0" prefWidth="727.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trabaidaporra.FXMLDocumentController">
    <children>
-      <TabPane prefHeight="621.0" prefWidth="603.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane prefHeight="793.0" prefWidth="727.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="AFN para AFD">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="763.0" prefWidth="727.0">
                      <children>
                         <TitledPane layoutX="14.0" layoutY="14.0" prefHeight="142.0" prefWidth="458.0" text="Parametros (entre virgulas)">
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="113.0" prefWidth="456.0">
                                  <children>
-                                    <Text layoutX="5.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Estados:" />
                                     <Text layoutX="5.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Alfabeto:" />
                                     <Text layoutX="5.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Estado Inicial:" />
                                     <Text layoutX="5.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sequencia:" />
-                                    <TextField layoutX="90.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="145.0" />
-                                    <TextField layoutX="90.0" layoutY="35.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="145.0" />
-                                    <TextField layoutX="90.0" layoutY="60.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="145.0" />
-                                    <TextField layoutX="90.0" layoutY="85.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="334.0" />
+                                    <TextField fx:id="txtAlfabeto" layoutX="90.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="145.0" />
+                                    <TextField fx:id="estadoInicial" layoutX="90.0" layoutY="60.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="145.0" />
+                                    <TextField fx:id="txtSequencia" layoutX="90.0" layoutY="85.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="334.0" />
+                                    <Text layoutX="5.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Estados:" />
+                                    <TextField fx:id="txtEstados" layoutX="90.0" layoutY="35.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="145.0" />
                                  </children>
                               </AnchorPane>
                           </content>
@@ -46,7 +48,34 @@
                                           <TableColumn fx:id="alvo" prefWidth="75.0" text="Alvo" />
                                       </columns>
                                     </TableView>
-                                    <Text layoutX="80.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tabela Função de Transição" />
+                                    <Text layoutX="80.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tabela Função de Transição" />
+                                    <Button layoutX="127.0" layoutY="275.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Construir AFD" />
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </TitledPane>
+                        <TitledPane layoutX="356.0" layoutY="163.0" prefHeight="346.0" prefWidth="321.0" text="AFD">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="288.0" prefWidth="319.0">
+                                 <children>
+                                    <TableView fx:id="tableAFN1" editable="true" layoutX="46.0" layoutY="58.0" prefHeight="200.0" prefWidth="227.0">
+                                       <columns>
+                                          <TableColumn fx:id="atual1" prefWidth="75.0" text="Atual" />
+                                          <TableColumn fx:id="valor1" prefWidth="75.0" text="Valor" />
+                                          <TableColumn fx:id="alvo1" prefWidth="75.0" text="Alvo" />
+                                       </columns>
+                                    </TableView>
+                                    <Text layoutX="86.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tabela Função de Transição" />
+                                    <Button layoutX="134.0" layoutY="275.0" mnemonicParsing="false" text="Gerar" />
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </TitledPane>
+                        <TitledPane animated="false" layoutX="15.0" layoutY="530.0" prefHeight="206.0" prefWidth="683.0" text="Solução">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <TextArea layoutX="14.0" layoutY="14.0" prefHeight="157.0" prefWidth="658.0" />
                                  </children>
                               </AnchorPane>
                           </content>
