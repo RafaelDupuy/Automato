@@ -40,7 +40,7 @@
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="288.0" prefWidth="319.0">
                                  <children>
                                     <Text layoutX="5.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Estados Finais (entre virgulas):" />
-                                    <TextField layoutX="166.0" layoutY="11.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="113.0" />
+                                    <TextField fx:id="txtEstadosFinais" layoutX="166.0" layoutY="11.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="113.0" />
                                     <TableView fx:id="tableAFN" editable="true" layoutX="46.0" layoutY="64.0" prefHeight="200.0" prefWidth="227.0">
                                       <columns>
                                         <TableColumn fx:id="atual" prefWidth="75.0" text="Atual" />
@@ -58,7 +58,7 @@
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="288.0" prefWidth="319.0">
                                  <children>
-                                    <TableView fx:id="tableAFN1" editable="true" layoutX="46.0" layoutY="58.0" prefHeight="200.0" prefWidth="227.0">
+                                    <TableView editable="true" layoutX="46.0" layoutY="58.0" prefHeight="200.0" prefWidth="227.0">
                                        <columns>
                                           <TableColumn fx:id="atual1" prefWidth="75.0" text="Atual" />
                                           <TableColumn fx:id="valor1" prefWidth="75.0" text="Valor" />
