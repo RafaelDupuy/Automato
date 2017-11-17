@@ -10,10 +10,12 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -32,7 +34,6 @@ public class FXMLDocumentController implements Initializable {
     int proximaLinhaAFD;
     String estadoAtual;
 
-   
     @FXML
     private TableView<Estados> tableAFN;
     @FXML
@@ -64,9 +65,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void handleButtonAction(ActionEvent event) {
-//        int i;
-//        i = alfabeto.length;
-//                i = tableAFN.getItems().size();
+        
         proximaLinhaAFD = 0;
         alfabeto = txtAlfabeto.getText().split(",");
         estados = txtEstados.getText().split(",");
@@ -74,30 +73,57 @@ public class FXMLDocumentController implements Initializable {
 
         constroiEstados(estadoInicial.getText());
         System.out.println(estadoAtual);
+        tableAFN.refresh();
 
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        
-        
         atual.setCellValueFactory(new PropertyValueFactory<>("statusAtual"));
         valor.setCellValueFactory(new PropertyValueFactory<>("valor"));
         alvo.setCellValueFactory(new PropertyValueFactory<>("statusAlvo"));
-        
+
         atualAFD.setCellValueFactory(new PropertyValueFactory<>("statusAtual"));
         valorAFD.setCellValueFactory(new PropertyValueFactory<>("valor"));
         alvoAFD.setCellValueFactory(new PropertyValueFactory<>("statusAlvo"));
-        
-        
 
         tableAFN.setItems(listaDeEstados());
-        
 
         atual.setCellFactory(TextFieldTableCell.forTableColumn());
         valor.setCellFactory(TextFieldTableCell.forTableColumn());
         alvo.setCellFactory(TextFieldTableCell.forTableColumn());
+        
+        
+        //Atualizar modificoes da tabela
+        atual.setOnEditCommit(
+                new EventHandler<CellEditEvent<Estados, String>>() {
+            @Override
+            public void handle(CellEditEvent<Estados, String> t) {
+                ((Estados) t.getTableView().getItems().get(
+                        t.getTablePosition().getRow())).setStatusAtual(t.getNewValue());
+            }
+        }
+        );
+        valor.setOnEditCommit(
+                new EventHandler<CellEditEvent<Estados, String>>() {
+            @Override
+            public void handle(CellEditEvent<Estados, String> t) {
+                ((Estados) t.getTableView().getItems().get(
+                        t.getTablePosition().getRow())).setValor(t.getNewValue());
+            }
+        }
+        );
+        alvo.setOnEditCommit(
+                new EventHandler<CellEditEvent<Estados, String>>() {
+            @Override
+            public void handle(CellEditEvent<Estados, String> t) {
+                ((Estados) t.getTableView().getItems().get(
+                        t.getTablePosition().getRow())).setStatusAlvo(t.getNewValue());
+            }
+        }
+        );
+
         
         txtAlfabeto.setText("0,1");
         txtEstados.setText("q0,q1,q2");
@@ -116,14 +142,17 @@ public class FXMLDocumentController implements Initializable {
     }
 
     private ObservableList<Estados> listaDeEstadosAFD() {
-        
+
         return FXCollections.observableArrayList(new Estados("", "", ""));
     }
 
     private void constroiEstados(String estado) {
-        String estados[];
-        int i, j, k;
+        String estados[] = null;
+        int i, j, k, t;
         String novoEstado, estadoFinal;
+        for(t = 1; t < tableAFN.getItems().size(); t++ ){
+           estados[t] = alvo.getCellObservableValue(t).getValue();
+        }
 
         for (j = 0; j < alfabeto.length; j++) {
             novoEstado = "";
@@ -159,11 +188,11 @@ public class FXMLDocumentController implements Initializable {
             }// Se novoEstado ainda não foi incluído no AFD, então inclui e constrói novos estados
             if (i > (proximaLinhaAFD - 1)) {
 
-                Estados teste = new Estados("", "", "");
-                teste.setStatusAtual(estado);
-                teste.setValor(alfabeto[j]);
-                teste.setStatusAlvo(novoEstado);
-                ObservableList<Estados> list = FXCollections.observableArrayList(teste);
+                Estados auxiliarAFD = new Estados("", "", "");
+                auxiliarAFD.setStatusAtual(estado);
+                auxiliarAFD.setValor(alfabeto[j]);
+                auxiliarAFD.setStatusAlvo(novoEstado);
+                ObservableList<Estados> list = FXCollections.observableArrayList(auxiliarAFD);
                 tableAFD.setItems(list);
                 tableAFD.refresh();
                 estadoFinal = estadoFinalAFND(novoEstado);
