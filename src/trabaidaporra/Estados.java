@@ -14,11 +14,13 @@ public class Estados {
     private String statusAtual;
     private String valor;
     private String statusAlvo;
+    
 
     public Estados(String statusAtual, String valor, String statusAlvo) {
         this.statusAtual = statusAtual;
         this.valor = valor;
         this.statusAlvo = statusAlvo;
+        
     }
     
     
@@ -48,6 +50,8 @@ public class Estados {
     public void setStatusAlvo(String statusAlvo) {
         this.statusAlvo = statusAlvo;
     }
+
+    
     
     
 }

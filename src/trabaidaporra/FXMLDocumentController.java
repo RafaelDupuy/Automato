@@ -18,6 +18,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.Callback;
 
 /**
  *
@@ -79,12 +80,15 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        atual.setCellValueFactory(
-                new PropertyValueFactory<>("statusAtual"));
-        valor.setCellValueFactory(
-                new PropertyValueFactory<>("valor"));
-        alvo.setCellValueFactory(
-                new PropertyValueFactory<>("statusAlvo"));
+        
+        
+        atual.setCellValueFactory(new PropertyValueFactory<>("statusAtual"));
+        valor.setCellValueFactory(new PropertyValueFactory<>("valor"));
+        alvo.setCellValueFactory(new PropertyValueFactory<>("statusAlvo"));
+        
+        atualAFD.setCellValueFactory(new PropertyValueFactory<>("statusAtual"));
+        valorAFD.setCellValueFactory(new PropertyValueFactory<>("valor"));
+        alvoAFD.setCellValueFactory(new PropertyValueFactory<>("statusAlvo"));
         
         
 
@@ -163,9 +167,7 @@ public class FXMLDocumentController implements Initializable {
                 tableAFD.setItems(list);
                 tableAFD.refresh();
                 estadoFinal = estadoFinalAFND(novoEstado);
-
                 proximaLinhaAFD++;
-
                 constroiEstados(novoEstado);
             }
 
