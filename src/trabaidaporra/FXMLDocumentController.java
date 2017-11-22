@@ -7,6 +7,7 @@ package trabaidaporra;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -63,18 +65,54 @@ public class FXMLDocumentController implements Initializable {
     private TextField txtSequencia;
     @FXML
     private TextField txtEstadosFinais;
+    @FXML
+    private TextArea resultado;
+    
+    
+
 
     @FXML
-    private void handleButtonAction(ActionEvent event) {
-list.clear();
+    private void construirAFD(ActionEvent event) {
+        list.clear();
+        resultado.setText("");
+        tableAFN.refresh();
+        
         proximaLinhaAFD = 0;
         alfabeto = txtAlfabeto.getText().split(",");
         estados = txtEstados.getText().split(",");
         sequencia = txtSequencia.getText().split(",");
-
         constroiEstados(estadoInicial.getText());
-        System.out.println(estadoAtual);
-        tableAFN.refresh();
+        
+        
+
+    }
+
+    @FXML
+    private void verificarPalavra(ActionEvent event) {
+        int i, j;
+        resultado.setText("");    // Limpa os resultados
+        sequencia = txtSequencia.getText().split(",");
+
+        resultado.appendText("Processando...\n");
+        String p = estadoInicial.getText();    // Seleciona o estado inicial
+        resultado.appendText("-->" + p);
+        
+        for (i = 0; i < sequencia.length; i++) {
+            // Encontra o próximo estado
+            p = proximoEstado(p, sequencia[i]);
+
+            resultado.appendText("\n" + p);                   // Imprime o estado atual            
+        }
+
+        if (estadoFinalAFD(p)) {
+            resultado.appendText("\n\n" + "Entrada aceita!");
+            resultado.setScrollTop(Double.MAX_VALUE);
+        } else {
+            resultado.appendText("\n\n" + "Entrada rejeitada!");
+            resultado.setScrollTop(Double.MAX_VALUE);
+
+            // Fim da execução do autômato
+        }
 
     }
 
@@ -88,6 +126,7 @@ list.clear();
         atualAFD.setCellValueFactory(new PropertyValueFactory<>("statusAtual"));
         valorAFD.setCellValueFactory(new PropertyValueFactory<>("valor"));
         alvoAFD.setCellValueFactory(new PropertyValueFactory<>("statusAlvo"));
+        estadoFinalAFD.setCellValueFactory(new PropertyValueFactory<>("estadoFinal"));
 
         tableAFN.setItems(listaDeEstados());
 
@@ -127,32 +166,43 @@ list.clear();
         txtAlfabeto.setText("0,1");
         txtEstados.setText("q0,q1,q2");
         estadoInicial.setText("q0");
-        txtEstadosFinais.setText("q1");
+        txtEstadosFinais.setText("q2");
 
     }
 
     private ObservableList<Estados> listaDeEstados() {
         return FXCollections.observableArrayList(
-                new Estados("q0", "0", "q1"),
-                new Estados("q0", "1", "q1"),
-                new Estados("q1", "1", "q1"),
-                new Estados("q1", "0", "q1"),
-                new Estados("q2", "1", "q1"));
-    }
-
-    private ObservableList<Estados> listaDeEstadosAFD() {
-
-        return FXCollections.observableArrayList(new Estados("", "", ""));
+                new Estados("q0", "0", "q0", ""),
+                new Estados("q0", "1", "q0", ""),
+                new Estados("q0", "1", "q1", ""),
+                new Estados("q1", "0", "q2", ""),
+                new Estados("", "", "", ""),
+                new Estados("", "", "", ""),
+                new Estados("", "", "", ""),
+                new Estados("", "", "", ""),
+                new Estados("", "", "", ""),
+                new Estados("", "", "", ""),
+                new Estados("", "", "", ""),
+                new Estados("", "", "", ""),
+                new Estados("", "", "", ""),
+                new Estados("", "", "", ""),
+                new Estados("", "", "", ""),
+                new Estados("", "", "", ""),
+                new Estados("", "", "", ""),
+                new Estados("", "", "", ""),
+                new Estados("", "", "", ""),
+                new Estados("", "", "", ""),
+                new Estados("", "", "", ""),
+                new Estados("", "", "", ""));
     }
 
     private void constroiEstados(String estado) {
         tableAFD.setItems(list);
         tableAFD.refresh();
-        
+
         String estados[] = null;
         int i, j, k;
         String novoEstado, estadoFinal;
-        
 
         for (j = 0; j < alfabeto.length; j++) {
             novoEstado = "";
@@ -192,12 +242,13 @@ list.clear();
             // Se novoEstado ainda não foi incluído no AFD, então inclui e constrói novos estados
             if (i > (proximaLinhaAFD - 1)) {
 
-                Estados auxiliarAFD = new Estados("", "", "");
+                Estados auxiliarAFD = new Estados("", "", "", "");
                 auxiliarAFD.setStatusAtual(estado);
                 auxiliarAFD.setValor(alfabeto[j]);
                 auxiliarAFD.setStatusAlvo(novoEstado);
-                list.add(auxiliarAFD);
                 estadoFinal = estadoFinalAFND(novoEstado);
+                auxiliarAFD.setEstadoFinal(estadoFinal);
+                list.add(auxiliarAFD);
                 proximaLinhaAFD++;
                 constroiEstados(novoEstado);
             }
@@ -231,6 +282,7 @@ list.clear();
         for (i = 0; i < estadosFinais.length; i++) {
             for (j = 0; j < estadosAux.length; j++) {
                 if (estadosFinais[i].equals(estadosAux[j])) {
+
                     return "*";
                 }
             }
@@ -238,4 +290,36 @@ list.clear();
 
         return "";
     }
+
+    private String proximoEstado(String p1, String p2) {
+        int i;
+        String s = null;
+
+        // Encontra uma entrada na tabela de transição de estados
+        for (i = 0; i < tableAFD.getItems().size(); i++) {
+            if (atualAFD.getCellData(i).equals(p1)
+                    && valorAFD.getCellData(i).equals(p2)) {
+                s = alvoAFD.getCellData(i);
+                break;
+            }
+        }
+
+        return s;
+    }
+
+    private boolean estadoFinalAFD(String s) {
+        int i;
+
+        for (i = 0; i < tableAFD.getItems().size(); i++) {
+            if (alvoAFD.getCellData(i).equals(s)
+                    && estadoFinalAFD.getCellData(i).equals("*")) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
+    
+    
 }
