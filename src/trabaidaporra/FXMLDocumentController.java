@@ -1,20 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package trabaidaporra;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
@@ -22,7 +15,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.util.Callback;
 
 /**
  *
@@ -37,139 +29,130 @@ public class FXMLDocumentController implements Initializable {
     String estadoAtual;
     ObservableList<Estados> list = FXCollections.observableArrayList();
 
+    //Variaveis interface de usuario Java FX
     @FXML
-    private TableView<Estados> tableAFN;
+    private TextField fxAlfabeto;
     @FXML
-    private TableView<Estados> tableAFD;
+    private TextField fxEstados;
     @FXML
-    private TableColumn<Estados, String> atual;
+    private TextField fxEstadoInicial;
     @FXML
-    private TableColumn<Estados, String> valor;
+    private TextField fxSequencia;
     @FXML
-    private TableColumn<Estados, String> alvo;
+    private TextField fxEstadosFinais;
     @FXML
-    private TableColumn<Estados, String> atualAFD;
+    private TableView<Estados> fxTabelaAFN;
     @FXML
-    private TableColumn<Estados, String> valorAFD;
+    private TableColumn<Estados, String> fxAtualAFN;
     @FXML
-    private TableColumn<Estados, String> alvoAFD;
+    private TableColumn<Estados, String> fxValorAFN;
     @FXML
-    private TableColumn<Estados, String> estadoFinalAFD;
+    private TableColumn<Estados, String> fxAlvoAFN;
     @FXML
-    private TextField txtAlfabeto;
+    private TableView<Estados> fxTabelaAFD;
     @FXML
-    private TextField txtEstados;
+    private TableColumn<Estados, String> fxAtualAFD;
     @FXML
-    private TextField estadoInicial;
+    private TableColumn<Estados, String> fxValorAFD;
     @FXML
-    private TextField txtSequencia;
+    private TableColumn<Estados, String> fxAlvoAFD;
     @FXML
-    private TextField txtEstadosFinais;
+    private TableColumn<Estados, String> fxEstadosFinaisAFD;
     @FXML
-    private TextArea resultado;
+    private TextArea fxResultado;
     
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+
+        fxAtualAFN.setCellValueFactory(new PropertyValueFactory<>("statusAtual"));
+        fxValorAFN.setCellValueFactory(new PropertyValueFactory<>("valor"));
+        fxAlvoAFN.setCellValueFactory(new PropertyValueFactory<>("statusAlvo"));
+
+        fxAtualAFD.setCellValueFactory(new PropertyValueFactory<>("statusAtual"));
+        fxValorAFD.setCellValueFactory(new PropertyValueFactory<>("valor"));
+        fxAlvoAFD.setCellValueFactory(new PropertyValueFactory<>("statusAlvo"));
+        fxEstadosFinaisAFD.setCellValueFactory(new PropertyValueFactory<>("estadoFinal"));
+
+        fxTabelaAFN.setItems(listaDeEstados());
+
+        fxAtualAFN.setCellFactory(TextFieldTableCell.forTableColumn());
+        fxValorAFN.setCellFactory(TextFieldTableCell.forTableColumn());
+        fxAlvoAFN.setCellFactory(TextFieldTableCell.forTableColumn());
+        
+        //Valores Padroes
+        fxAlfabeto.setText("0,1");
+        fxEstados.setText("q0,q1,q2");
+        fxEstadoInicial.setText("q0");
+        fxSequencia.setText("1,0");
+        fxEstadosFinais.setText("q2");
+
+        //Atualizar tabela quando valores forem modificados
+        fxAtualAFN.setOnEditCommit(
+            new EventHandler<CellEditEvent<Estados, String>>() {
+                @Override
+                public void handle(CellEditEvent<Estados, String> t) {
+                    ((Estados) t.getTableView().getItems().get(
+                        t.getTablePosition().getRow())).setStatusAtual(t.getNewValue());
+            }});
+        fxValorAFN.setOnEditCommit(
+            new EventHandler<CellEditEvent<Estados, String>>() {
+                @Override
+                public void handle(CellEditEvent<Estados, String> t) {
+                    ((Estados) t.getTableView().getItems().get(
+                        t.getTablePosition().getRow())).setValor(t.getNewValue());
+            }});
+        fxAlvoAFN.setOnEditCommit(
+            new EventHandler<CellEditEvent<Estados, String>>() {
+            @Override
+            public void handle(CellEditEvent<Estados, String> t) {
+                ((Estados) t.getTableView().getItems().get(
+                    t.getTablePosition().getRow())).setStatusAlvo(t.getNewValue());
+            }});
+    }
     
-
-
+    //Botao Construir AFD
     @FXML
     private void construirAFD(ActionEvent event) {
         list.clear();
-        resultado.setText("");
-        tableAFN.refresh();
+        fxResultado.setText("");
+        fxTabelaAFN.refresh();
         
         proximaLinhaAFD = 0;
-        alfabeto = txtAlfabeto.getText().split(",");
-        estados = txtEstados.getText().split(",");
-        sequencia = txtSequencia.getText().split(",");
-        constroiEstados(estadoInicial.getText());
-        
-        
-
+        alfabeto = fxAlfabeto.getText().split(",");
+        estados = fxEstados.getText().split(",");
+        sequencia = fxSequencia.getText().split(",");
+        constroiEstados(fxEstadoInicial.getText());
     }
-
+    
+    //Botao Verificar
     @FXML
     private void verificarPalavra(ActionEvent event) {
         int i, j;
-        resultado.setText("");    // Limpa os resultados
-        sequencia = txtSequencia.getText().split(",");
+        fxResultado.setText("");    // Limpa os resultados
+        sequencia = fxSequencia.getText().split(",");
 
-        resultado.appendText("Processando...\n");
-        String p = estadoInicial.getText();    // Seleciona o estado inicial
-        resultado.appendText("-->" + p);
+        fxResultado.appendText("Processando...\n");
+        String p = fxEstadoInicial.getText();    // Seleciona o estado inicial
+        fxResultado.appendText("-->" + p);
         
         for (i = 0; i < sequencia.length; i++) {
             // Encontra o próximo estado
             p = proximoEstado(p, sequencia[i]);
 
-            resultado.appendText("\n" + p);                   // Imprime o estado atual            
+            fxResultado.appendText("\n" + p);                   // Imprime o estado atual            
         }
 
-        if (estadoFinalAFD(p)) {
-            resultado.appendText("\n\n" + "Entrada aceita!");
-            resultado.setScrollTop(Double.MAX_VALUE);
+        if (fxEstadosFinaisAFD(p)) {
+            fxResultado.appendText("\n\n" + "Entrada aceita!");
+            fxResultado.setScrollTop(Double.MAX_VALUE);
         } else {
-            resultado.appendText("\n\n" + "Entrada rejeitada!");
-            resultado.setScrollTop(Double.MAX_VALUE);
+            fxResultado.appendText("\n\n" + "Entrada rejeitada!");
+            fxResultado.setScrollTop(Double.MAX_VALUE);
 
             // Fim da execução do autômato
         }
-
     }
-
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-
-        atual.setCellValueFactory(new PropertyValueFactory<>("statusAtual"));
-        valor.setCellValueFactory(new PropertyValueFactory<>("valor"));
-        alvo.setCellValueFactory(new PropertyValueFactory<>("statusAlvo"));
-
-        atualAFD.setCellValueFactory(new PropertyValueFactory<>("statusAtual"));
-        valorAFD.setCellValueFactory(new PropertyValueFactory<>("valor"));
-        alvoAFD.setCellValueFactory(new PropertyValueFactory<>("statusAlvo"));
-        estadoFinalAFD.setCellValueFactory(new PropertyValueFactory<>("estadoFinal"));
-
-        tableAFN.setItems(listaDeEstados());
-
-        atual.setCellFactory(TextFieldTableCell.forTableColumn());
-        valor.setCellFactory(TextFieldTableCell.forTableColumn());
-        alvo.setCellFactory(TextFieldTableCell.forTableColumn());
-
-        //Atualizar modificoes da tabela
-        atual.setOnEditCommit(
-                new EventHandler<CellEditEvent<Estados, String>>() {
-            @Override
-            public void handle(CellEditEvent<Estados, String> t) {
-                ((Estados) t.getTableView().getItems().get(
-                        t.getTablePosition().getRow())).setStatusAtual(t.getNewValue());
-            }
-        }
-        );
-        valor.setOnEditCommit(
-                new EventHandler<CellEditEvent<Estados, String>>() {
-            @Override
-            public void handle(CellEditEvent<Estados, String> t) {
-                ((Estados) t.getTableView().getItems().get(
-                        t.getTablePosition().getRow())).setValor(t.getNewValue());
-            }
-        }
-        );
-        alvo.setOnEditCommit(
-                new EventHandler<CellEditEvent<Estados, String>>() {
-            @Override
-            public void handle(CellEditEvent<Estados, String> t) {
-                ((Estados) t.getTableView().getItems().get(
-                        t.getTablePosition().getRow())).setStatusAlvo(t.getNewValue());
-            }
-        }
-        );
-
-        txtAlfabeto.setText("0,1");
-        txtEstados.setText("q0,q1,q2");
-        estadoInicial.setText("q0");
-        txtEstadosFinais.setText("q2");
-
-    }
-
+    
     private ObservableList<Estados> listaDeEstados() {
         return FXCollections.observableArrayList(
                 new Estados("q0", "0", "q0", ""),
@@ -197,8 +180,8 @@ public class FXMLDocumentController implements Initializable {
     }
 
     private void constroiEstados(String estado) {
-        tableAFD.setItems(list);
-        tableAFD.refresh();
+        fxTabelaAFD.setItems(list);
+        fxTabelaAFD.refresh();
 
         String estados[] = null;
         int i, j, k;
@@ -207,19 +190,19 @@ public class FXMLDocumentController implements Initializable {
         for (j = 0; j < alfabeto.length; j++) {
             novoEstado = "";
             estados = estado.split(",");
-            int tamanhoAFN = tableAFN.getItems().size();
+            int tamanhoAFN = fxTabelaAFN.getItems().size();
 
             for (k = 0; k < estados.length; k++) {
                 for (i = 0; i < tamanhoAFN; i++) {
 
-                    if (atual.getCellData(i).equals(estados[k])
-                            && valor.getCellData(i).equals(alfabeto[j])) {
+                    if (fxAtualAFN.getCellData(i).equals(estados[k])
+                            && fxValorAFN.getCellData(i).equals(alfabeto[j])) {
 
-                        if (!contemEstado(novoEstado, alvo.getCellData(i))) {
+                        if (!contemEstado(novoEstado, fxAlvoAFN.getCellData(i))) {
                             if (novoEstado != "") {
                                 novoEstado += ",";
                             }
-                            novoEstado += alvo.getCellData(i);
+                            novoEstado += fxAlvoAFN.getCellData(i);
                         }
                     }
                 }
@@ -231,9 +214,9 @@ public class FXMLDocumentController implements Initializable {
             // Verifica se novoEstado já foi incluído na tabela AFD
             for (i = 0; i <= (proximaLinhaAFD - 1); i++) {
                 //if (tabelaTransicaoAFD.getValueAt(i,0).toString().equals(novoEstado))
-                if (atualAFD.getCellData(i).toString().equals(estado)
-                        && valorAFD.getCellData(i).equals(alfabeto[j])
-                        && alvoAFD.getCellData(i).equals(novoEstado)) {
+                if (fxAtualAFD.getCellData(i).toString().equals(estado)
+                        && fxValorAFD.getCellData(i).equals(alfabeto[j])
+                        && fxAlvoAFD.getCellData(i).equals(novoEstado)) {
                     break;
                 }
 
@@ -275,19 +258,17 @@ public class FXMLDocumentController implements Initializable {
 
     private String estadoFinalAFND(String s) {
         int i, j;
-        String estadosFinais[] = txtEstadosFinais.getText().split(",");
+        String estadosFinais[] = fxEstadosFinais.getText().split(",");
         String estadosAux[] = s.split(",");
 
         // Verifica se o estado final é um dos estados finais do autômato
         for (i = 0; i < estadosFinais.length; i++) {
             for (j = 0; j < estadosAux.length; j++) {
                 if (estadosFinais[i].equals(estadosAux[j])) {
-
                     return "*";
                 }
             }
         }
-
         return "";
     }
 
@@ -296,30 +277,25 @@ public class FXMLDocumentController implements Initializable {
         String s = null;
 
         // Encontra uma entrada na tabela de transição de estados
-        for (i = 0; i < tableAFD.getItems().size(); i++) {
-            if (atualAFD.getCellData(i).equals(p1)
-                    && valorAFD.getCellData(i).equals(p2)) {
-                s = alvoAFD.getCellData(i);
+        for (i = 0; i < fxTabelaAFD.getItems().size(); i++) {
+            if (fxAtualAFD.getCellData(i).equals(p1)
+                    && fxValorAFD.getCellData(i).equals(p2)) {
+                s = fxAlvoAFD.getCellData(i);
                 break;
             }
         }
-
         return s;
     }
 
-    private boolean estadoFinalAFD(String s) {
+    private boolean fxEstadosFinaisAFD(String s) {
         int i;
-
-        for (i = 0; i < tableAFD.getItems().size(); i++) {
-            if (alvoAFD.getCellData(i).equals(s)
-                    && estadoFinalAFD.getCellData(i).equals("*")) {
+        
+        for (i = 0; i < fxTabelaAFD.getItems().size(); i++) {
+            if (fxAlvoAFD.getCellData(i).equals(s)
+                    && fxEstadosFinaisAFD.getCellData(i).equals("*")) {
                 return true;
             }
         }
-
         return false;
     }
-    
-    
-    
 }
