@@ -131,15 +131,16 @@ public class FXMLDocumentController implements Initializable {
         fxResultado.setText("");    // Limpa os resultados
         sequencia = fxSequencia.getText().split(",");
 
-        fxResultado.appendText("Processando...\n");
+        fxResultado.appendText("Verificado...\n\n");
         String p = fxEstadoInicial.getText();    // Seleciona o estado inicial
-        fxResultado.appendText("-->" + p);
+        fxResultado.appendText("Leu '" +sequencia[0]+ "' em (" + p+") e foi ");
         
         for (i = 0; i < sequencia.length; i++) {
             // Encontra o próximo estado
             p = proximoEstado(p, sequencia[i]);
 
-            fxResultado.appendText("\n" + p);                   // Imprime o estado atual            
+            fxResultado.appendText(" para (" + p + ")");
+            fxResultado.appendText("\nLeu '" +sequencia[i+1]+ "' em (" + p+") e foi "); // Imprime o estado atual            
         }
 
         if (fxEstadosFinaisAFD(p)) {
@@ -265,7 +266,7 @@ public class FXMLDocumentController implements Initializable {
         for (i = 0; i < estadosFinais.length; i++) {
             for (j = 0; j < estadosAux.length; j++) {
                 if (estadosFinais[i].equals(estadosAux[j])) {
-                    return "*";
+                    return "FINAL";
                 }
             }
         }
@@ -292,7 +293,7 @@ public class FXMLDocumentController implements Initializable {
         
         for (i = 0; i < fxTabelaAFD.getItems().size(); i++) {
             if (fxAlvoAFD.getCellData(i).equals(s)
-                    && fxEstadosFinaisAFD.getCellData(i).equals("*")) {
+                    && fxEstadosFinaisAFD.getCellData(i).equals("FINAL")) {
                 return true;
             }
         }

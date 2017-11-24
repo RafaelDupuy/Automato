@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" cacheShape="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="793.0" prefWidth="727.0" scaleShape="false" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trabaidaporra.FXMLDocumentController">
+<AnchorPane id="AnchorPane" cacheShape="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="565.0" prefWidth="1040.0" scaleShape="false" style="-fx-background-color: linear-gradient(to bottom right, #2f4f4f, #5f9ea0 50%);" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trabaidaporra.FXMLDocumentController">
    <children>
-      <TabPane prefHeight="793.0" prefWidth="727.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane prefHeight="563.0" prefWidth="1038.0" style="-fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="AFN para AFD">
             <content>
@@ -72,11 +72,11 @@
                               </AnchorPane>
                            </content>
                         </TitledPane>
-                        <TitledPane animated="false" layoutX="15.0" layoutY="530.0" prefHeight="206.0" prefWidth="683.0" text="Solução">
+                        <TitledPane animated="false" layoutX="694.0" layoutY="163.0" prefHeight="347.0" prefWidth="315.0" text="Solução">
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <TextArea fx:id="fxResultado" editable="false" layoutX="14.0" layoutY="14.0" prefHeight="157.0" prefWidth="658.0" />
+                                    <TextArea fx:id="fxResultado" editable="false" layoutX="21.0" layoutY="14.0" prefHeight="292.0" prefWidth="273.0" />
                                  </children>
                               </AnchorPane>
                           </content>
