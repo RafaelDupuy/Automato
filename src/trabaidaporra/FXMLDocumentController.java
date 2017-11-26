@@ -79,10 +79,10 @@ public class FXMLDocumentController implements Initializable {
         fxEstadosFinaisAFD.setCellValueFactory(new PropertyValueFactory<>("estadoFinal"));    
         
         //Valores Padroes TextField
-        fxAlfabeto.setText("0,1");
-        fxEstados.setText("q0,q1,q2");
+        fxAlfabeto.setText("0 1");
+        fxEstados.setText("q0 q1 q2");
         fxEstadoInicial.setText("q0");
-        fxSequencia.setText("1,0");
+        fxSequencia.setText("1 0");
         fxEstadosFinais.setText("q2");
 
         //Atualizar tabela quando valores forem modificados
@@ -110,9 +110,9 @@ public class FXMLDocumentController implements Initializable {
         fxTabelaAFN.refresh();
         
         proximaLinhaAFD = 0;
-        alfabeto = fxAlfabeto.getText().split(",");
-        estados = fxEstados.getText().split(",");
-        sequencia = fxSequencia.getText().split(",");
+        alfabeto = fxAlfabeto.getText().split(" ");
+        estados = fxEstados.getText().split(" ");
+        sequencia = fxSequencia.getText().split(" ");
         constroiEstados(fxEstadoInicial.getText());
     }
     
@@ -121,7 +121,7 @@ public class FXMLDocumentController implements Initializable {
     private void verificarPalavra(ActionEvent event) {
         int i;
         fxResultado.setText("");    // Limpa os resultados
-        sequencia = fxSequencia.getText().split(",");
+        sequencia = fxSequencia.getText().split(" ");
 
         fxResultado.appendText("Verificado...\n\n");
         String p = fxEstadoInicial.getText();    // Seleciona o estado inicial
@@ -184,7 +184,7 @@ public class FXMLDocumentController implements Initializable {
 
         for (j = 0; j < alfabeto.length; j++) {
             novoEstado = "";
-            estados = estado.split(",");
+            estados = estado.split(" ");
             int tamanhoAFN = fxTabelaAFN.getItems().size();
 
             for (k = 0; k < estados.length; k++) {
@@ -195,7 +195,7 @@ public class FXMLDocumentController implements Initializable {
 
                         if (!contemEstado(novoEstado, fxAlvoAFN.getCellData(i))) {
                             if (novoEstado != "") {
-                                novoEstado += ",";
+                                novoEstado += " ";
                             }
                             novoEstado += fxAlvoAFN.getCellData(i);
                         }
@@ -237,7 +237,7 @@ public class FXMLDocumentController implements Initializable {
 
     private boolean contemEstado(String estado1, String estado2) {
         int i;
-        String estados[] = estado1.split(",");
+        String estados[] = estado1.split(" ");
 
         for (i = 0; i < estados.length; i++) {
             if (estados[i].equals(estado2)) {
@@ -253,8 +253,8 @@ public class FXMLDocumentController implements Initializable {
 
     private String estadoFinalAFND(String s) {
         int i, j;
-        String estadosFinais[] = fxEstadosFinais.getText().split(",");
-        String estadosAux[] = s.split(",");
+        String estadosFinais[] = fxEstadosFinais.getText().split(" ");
+        String estadosAux[] = s.split(" ");
 
         // Verifica se o estado final é um dos estados finais do autômato
         for (i = 0; i < estadosFinais.length; i++) {
