@@ -13,3 +13,5 @@ Autômatos finitos não-determinísticos foram introduzidos em 1959 por Michael 
 Na Teoria dos autômatos, um sub-tópico da Ciência da computação teórica, um autômato finito determinístico — também chamado máquina de estados finita determinística (AFD) — é uma Máquina de estados finita que aceita ou rejeita cadeias de símbolos gerando um único ramo de computação para cada cadeia de entrada."Determinística" refere-se à unicidade do processamento. O primeiro conceito similar ao de autômatos finitos foi apresentado por McCulloch e Pitts em 1943. Modelo esse que foi produzido na busca por estruturas mais simples para a reprodução de máquinas de estado finitas.
 
 **Minimização de AFD**
+
+Minimização de AFD é o processo de transformação de um dado autômato finito determinístico (AFD) em outro equivalente que tenha um número mínimo de estados. Aqui, dois AFDs são ditos equivalentes se eles descrevem a mesma linguagem regular. Vários algoritmos diferentes que realizam essa tarefa estão descritos em livros-texto padrões que abordam a teoria dos autômatos.
