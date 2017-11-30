@@ -15,3 +15,9 @@ Na Teoria dos autômatos, um sub-tópico da Ciência da computação teórica, u
 **Minimização de AFD**
 
 Minimização de AFD é o processo de transformação de um dado autômato finito determinístico (AFD) em outro equivalente que tenha um número mínimo de estados. Aqui, dois AFDs são ditos equivalentes se eles descrevem a mesma linguagem regular. Vários algoritmos diferentes que realizam essa tarefa estão descritos em livros-texto padrões que abordam a teoria dos autômatos.
+
+Há três classes de estados que podem ser removidos/mesclados ao AFD original sem afetar as linguagens que esse aceita:
+* Estados inalcançáveis são aqueles estados impossíveis de se alcançar a partir do estado de inicial do AFD, para qualquer cadeia de entrada.
+* Estados mortos são quaisquer estados, exceto os de aceitação, cujas transições para todo caracter de entrada tem ele próprio como destino. Eles são também conhecidos como Estados Armadilha (Trap States) pois uma vez alcançados, não há escapatória.
+* Estados indistinguíveis são estados indistintos entre si, para qualquer cadeia de entrada.
+
