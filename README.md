@@ -8,6 +8,7 @@ Máquinas de estados finitas não-determinísticas são generalizadas pelo autô
 
 Autômatos finitos não-determinísticos foram introduzidos em 1959 por Michael O. Rabin e Dana Scott, que também mostraram sua equivalência com autômatos finitos determinísticos.
 
+
 **Autômato finito não-determinístico**
 
 Na Teoria dos autômatos, um sub-tópico da Ciência da computação teórica, um autômato finito determinístico — também chamado máquina de estados finita determinística (AFD) — é uma Máquina de estados finita que aceita ou rejeita cadeias de símbolos gerando um único ramo de computação para cada cadeia de entrada."Determinística" refere-se à unicidade do processamento. O primeiro conceito similar ao de autômatos finitos foi apresentado por McCulloch e Pitts em 1943. Modelo esse que foi produzido na busca por estruturas mais simples para a reprodução de máquinas de estado finitas.
