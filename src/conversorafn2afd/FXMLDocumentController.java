@@ -1,4 +1,4 @@
-package trabaidaporra;
+package conversorafn2afd;
 
 import java.net.URL;
 import java.util.ResourceBundle;

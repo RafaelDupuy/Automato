@@ -1,4 +1,4 @@
-package trabaidaporra;
+package conversorafn2afd;
 
 import java.awt.Image;
 import javafx.application.Application;
@@ -7,7 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class TrabaiDaPorra extends Application {
+public class ConversorAFN2AFD extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
