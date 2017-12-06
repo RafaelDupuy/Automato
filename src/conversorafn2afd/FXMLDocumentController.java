@@ -119,7 +119,7 @@ public class FXMLDocumentController implements Initializable {
         sequencia = fxSequencia.getText().split(",");
         
          fxResultado.appendText("Sequencia de Conversão do AFN..." + "\n\n");
-        fxResultado.appendText("Estado criado a partir de: " + fxEstadoInicial.getText() + "\n");
+        fxResultado.appendText("Estado criado a partir de: (" + fxEstadoInicial.getText() + ")\n");
         
         constroiEstados(fxEstadoInicial.getText());
         
@@ -261,8 +261,8 @@ public class FXMLDocumentController implements Initializable {
                 listaTabelaAFD.add(auxiliarAFD);
                 proximaLinhaAFD++;
                 
-                fxResultado.appendText("Nova regra do AFD: " + estado + "  |  " + alfabeto[j] + "  |  " + novoEstado + "  " + estadoFinal + "\n");
-                fxResultado.appendText("Estado criado a partir de: " + novoEstado + "\n");
+                fxResultado.appendText("Nova regra do AFD: (" + estado + ")  |  " + alfabeto[j] + "  |  (" + novoEstado + ")  " + estadoFinal + "\n");
+                fxResultado.appendText("Estado criado a partir de: (" + novoEstado + ")\n");
                 constroiEstados(novoEstado);
             }
 
