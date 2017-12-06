@@ -1,6 +1,6 @@
 # Conversor AFN para AFD:
 
-**Autômato finito determinístico**
+**Autômato finito não-determinístico**
 
 Uma máquina de estados finita não-determinística ou um autômato finito não-determinístico (AFND) é uma máquina de estados finita onde para cada par de estado e símbolo de entrada pode haver vários próximos estados possíveis. Isso o distingue do autômato finito determinístico (AFD), onde o próximo estado possível é univocamente determinado. Embora AFD e AFND possuam definições distintas, pode ser mostrado na teoria formal que eles são equivalentes e, deste modo, para qualquer AFND dado, pode-se construir um AFD equivalente e vice-versa: essa é a construção do conjunto das partes. Ambos os tipos de autômatos reconhecem apenas linguagens regulares. Máquinas de estados finitas não-determinísticas são às vezes estudadas com o nome de subshifts de tipo finito.
 
@@ -8,17 +8,6 @@ Máquinas de estados finitas não-determinísticas são generalizadas pelo autô
 
 Autômatos finitos não-determinísticos foram introduzidos em 1959 por Michael O. Rabin e Dana Scott, que também mostraram sua equivalência com autômatos finitos determinísticos.
 
-
-**Autômato finito não-determinístico**
+**Autômato finito determinístico**
 
 Na Teoria dos autômatos, um sub-tópico da Ciência da computação teórica, um autômato finito determinístico — também chamado máquina de estados finita determinística (AFD) — é uma Máquina de estados finita que aceita ou rejeita cadeias de símbolos gerando um único ramo de computação para cada cadeia de entrada."Determinística" refere-se à unicidade do processamento. O primeiro conceito similar ao de autômatos finitos foi apresentado por McCulloch e Pitts em 1943. Modelo esse que foi produzido na busca por estruturas mais simples para a reprodução de máquinas de estado finitas.
-
-**Minimização de AFD**
-
-Minimização de AFD é o processo de transformação de um dado autômato finito determinístico (AFD) em outro equivalente que tenha um número mínimo de estados. Aqui, dois AFDs são ditos equivalentes se eles descrevem a mesma linguagem regular. Vários algoritmos diferentes que realizam essa tarefa estão descritos em livros-texto padrões que abordam a teoria dos autômatos.
-
-Há três classes de estados que podem ser removidos/mesclados ao AFD original sem afetar as linguagens que esse aceita:
-* Estados inalcançáveis são aqueles estados impossíveis de se alcançar a partir do estado de inicial do AFD, para qualquer cadeia de entrada.
-* Estados mortos são quaisquer estados, exceto os de aceitação, cujas transições para todo caracter de entrada tem ele próprio como destino. Eles são também conhecidos como Estados Armadilha (Trap States) pois uma vez alcançados, não há escapatória.
-* Estados indistinguíveis são estados indistintos entre si, para qualquer cadeia de entrada.
-
